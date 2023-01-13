@@ -464,7 +464,13 @@ Scheduling:
           - ${PRIVATE_SUBNET_ID}
         AssignPublicIp: false
 SharedStorage:
-${FSX}
+  - Name: Efs0
+    StorageType: Efs
+    MountDir: /shared
+    EfsSettings:
+      ThroughputMode: provisioned
+      Encrypted: false
+      ProvisionedThroughput: 128
 Tags:
   - Key: EnginFrame
     Value: 'true'
