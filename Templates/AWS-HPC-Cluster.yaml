@@ -13,7 +13,6 @@ Metadata:
           - PublicSubnetAId
           - PublicSubnetBId
           - PrivateSubnetAId
-          - FSx
           - AD
     ParameterLabels: 
       AdminPassword: 
@@ -26,8 +25,6 @@ Metadata:
         default: 'Public Subnet 2:'
       PrivateSubnetAId: 
         default: 'Private Subnet:'
-      FSx: 
-        default: 'FSx:'
       AD: 
         default: 'Active Directory:'
 
@@ -62,12 +59,6 @@ Parameters:
       Description: 'Please, enter the ID of the Private Subnet you wish to use, or just leave "AUTO" if you want to re-use an existing one.'
       Type: String
       AllowedPattern: ^(AUTO|subnet-[0-9a-z]+)$
-      Default : AUTO
-      
-    FSx: 
-      Description: 'Please, enter your FSx ID, or just leave "AUTO" if you want to re-use an existing one.'
-      Type: String
-      AllowedPattern: ^(AUTO|fs-[0-9a-z]+)$
       Default : AUTO
 
     AD:
@@ -368,7 +359,6 @@ Resources:
             - !Sub echo "export AWS_DEFAULT_REGION=${AWS::Region}" >> cluster_env
             - !Sub echo "export AWS_REGION_NAME=${AWS::Region}" >> cluster_env
             - !Sub echo "export S3_BUCKET=${Cloud9OutputBucket}" >> cluster_env
-            - !Sub echo "export FSX_ID=${FSx}" >> cluster_env
             - !Sub
               - echo "export PRIVATE_SUBNET_ID=${FinalPrivateSubnetAId}" >> cluster_env
               - FinalPrivateSubnetAId: !If [CreateVpc, !GetAtt HPCNetworkStack.Outputs.PrivateSubnetA, !Ref PrivateSubnetAId]            
